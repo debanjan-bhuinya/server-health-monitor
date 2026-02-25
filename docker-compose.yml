@@ -1,0 +1,9 @@
+version: "3.9"
+
+services:
+  health-monitor:
+    build: .
+    container_name: server-health-monitor
+    env_file:
+      - .env
+    restart: always
