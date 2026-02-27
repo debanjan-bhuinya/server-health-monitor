@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: server-health-monitor
-        image: server-health-monitor:v1
+        image: pikachu003/server-health-monitor:latest
         imagePullPolicy: IfNotPresent
         env:
         - name: SLACK_WEBHOOK_URL
