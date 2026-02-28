@@ -17,6 +17,4 @@ RUN chmod +x health-check.sh
 # Default command
 CMD ["./health-check.sh"]
 
-HEALTHCHECK --interval=60s --timeout=10s --retries=3 \
-  CMD bash -c 'test -f /tmp/last_check && \
-  [ $(( $(date +%s) - $(cat /tmp/last_check) )) -lt 600 ]'
+HEALTHCHECK --interval=60s --timeout=10s --retries=3 CMD bash -c "test -f /tmp/last_check && [ \$(( \$(date +%s) - \$(cat /tmp/last_check) )) -lt 600 ]"

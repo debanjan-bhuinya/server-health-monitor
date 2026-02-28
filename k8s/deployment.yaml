@@ -1,26 +1,21 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: batch/v1
+kind: CronJob
 metadata:
   name: server-health-monitor
-  labels:
-    app: server-health-monitor
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: server-health-monitor
-  template:
-    metadata:
-      labels:
-        app: server-health-monitor
+  schedule: "*/5 * * * *"   # every 5 minute
+  jobTemplate:
     spec:
-      containers:
-      - name: server-health-monitor
-        image: pikachu003/server-health-monitor:latest
-        imagePullPolicy: IfNotPresent
-        env:
-        - name: SLACK_WEBHOOK_URL
-          valueFrom:
-            secretKeyRef:
-              name: slack-webhook-secret
-              key: webhook-url
+      template:
+        spec:
+          containers:
+            - name: server-health-monitor
+              image: pikachu003/server-health-monitor:latest
+              imagePullPolicy: Always
+              env:
+                - name: SLACK_WEBHOOK_URL
+                  valueFrom:
+                    secretKeyRef:
+                      name: slack-webhook-secret
+                      key: webhook-url
+          restartPolicy: OnFailure
